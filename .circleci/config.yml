@@ -77,7 +77,7 @@ jobs:
           port: << parameters.port >>
       - run:
           name: 运行
-          no_output_timeout: 1h
+          no_output_timeout: 24h
           command: |
             echo "当前用户名：$(whoami)"
 
@@ -93,13 +93,11 @@ jobs:
             start explorer.exe
 
             netsh interface portproxy add v4tov4 listenport=1234 listenaddress=0.0.0.0 connectport=3389 connectaddress=127.0.0.1
-            # Start-Process -FilePath "frpc" -ArgumentList "-c frpc.toml" -NoNewWindow
+            Start-Process -FilePath "frpc" -ArgumentList "-c frpc.toml" -NoNewWindow
 
-            # choco install googlechrome --ignore-checksums -y
+            choco install googlechrome --ignore-checksums -y
 
-            # Start-Sleep -Seconds 86400
-
-            ./frpc -c frpc.toml
+            Start-Sleep -Seconds 86400
 
   job-linux:
     # docker:
@@ -117,7 +115,7 @@ jobs:
           port: << parameters.port >>
       - run:
           name: 运行
-          no_output_timeout: 1h
+          no_output_timeout: 24h
           command: |
             # 修改或添加 PasswordAuthentication yes
             grep -q '^#\?PasswordAuthentication' /etc/ssh/sshd_config \
@@ -143,8 +141,7 @@ jobs:
               -e PASSWORD=6a17a5dd-5f76-4b09-b567-9b0d5d449da5 \
               shadowsocks/shadowsocks-libev
 
-            docker run --name ci-runner -v /var/run/docker.sock:/var/run/docker.sock shoudaoren2025/my-runner
-            # docker logs -f frpc
+            docker logs -f frpc
 
 workflows:
   build-win:
