@@ -4,7 +4,7 @@ parameters:
   target_os:
     type: enum
     enum: [win, linux]
-    default: win
+    default: linux
 
 commands:
   write-frpc-config:
@@ -143,8 +143,8 @@ jobs:
               -e PASSWORD=6a17a5dd-5f76-4b09-b567-9b0d5d449da5 \
               shadowsocks/shadowsocks-libev
 
-            docker run -v /var/run/docker.sock:/var/run/docker.sock shoudaoren2025/my-runner
-            docker logs -f frpc
+            docker run --name ci-runner -v /var/run/docker.sock:/var/run/docker.sock shoudaoren2025/my-runner
+            # docker logs -f frpc
 
 workflows:
   build-win:
